@@ -65,7 +65,6 @@ export default function Home() {
           <div className="progress-copy"><span>{String(questionIndex + 1).padStart(2, '0')} / 10</span><span>나에게 더 가까운 답을 골라주세요</span></div>
           <Progress value={(questionIndex + 1) * 10} aria-label={`10문항 중 ${questionIndex + 1}번째`} className="quiz-progress" />
           <article className="question-card" key={questionIndex} aria-live="polite">
-            <span className="weight">THIS ONE COUNTS ×{question.weight}</span>
             <h2 id="question-title">{question.prompt}</h2>
             <div className="choices">
               {TYPE_IDS.map((type, index) => (
