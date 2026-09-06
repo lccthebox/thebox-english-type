@@ -87,7 +87,7 @@ function ResultScreen({ type, restart }: { readonly type: TypeId; readonly resta
   const [shareStatus, setShareStatus] = useState('');
 
   async function shareTest(): Promise<void> {
-    const url = `${window.location.origin}/`;
+    const url = new URL(window.location.pathname, window.location.origin).href;
     if (navigator.share) {
       try {
         await navigator.share({ title: '나의 영어 성향 테스트', text: '나는 어떤 환경에서 영어를 가장 잘 배울까?', url });
