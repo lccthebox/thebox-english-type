@@ -50,6 +50,7 @@ blockquote { box-shadow: 4px 4px 0 #18181d; }
 
 @media (max-width: 560px) {
   .result-actions { grid-template-columns: 1fr; }
+  .result-hero h1 { font-size: clamp(3.15rem, 17vw, 3.7rem); white-space: nowrap; }
   .masthead { height: 76px; }
   .brand { align-items: flex-start; flex-direction: column; gap: 5px; }
   .brand-hook { padding: 4px 8px 3px; font-size: .68rem; }

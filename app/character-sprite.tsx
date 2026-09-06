@@ -2,13 +2,14 @@ type CharacterSpriteProps = { readonly position: readonly [number, number]; read
 
 function imageFor(position: readonly [number, number]): string {
   const key = `${position[0]},${position[1]}`;
+  const base = import.meta.env.BASE_URL;
   switch (key) {
-    case '2,0': return '/type-guide.png';
-    case '1,1': return '/type-hideout.png';
-    case '0,1': return '/type-field.png';
-    case '3,2': return '/type-rehearsal.png';
-    case '2,5': return '/type-quest.png';
-    default: return '/type-field.png';
+    case '2,0': return `${base}type-guide.png`;
+    case '1,1': return `${base}type-hideout.png`;
+    case '0,1': return `${base}type-field.png`;
+    case '3,2': return `${base}type-rehearsal.png`;
+    case '2,5': return `${base}type-quest.png`;
+    default: return `${base}type-field.png`;
   }
 }
 
