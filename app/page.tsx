@@ -89,7 +89,11 @@ function ResultScreen({ type, restart }: { readonly type: TypeId; readonly resta
   async function shareTest(): Promise<void> {
     const url = `${window.location.origin}/`;
     if (navigator.share) {
-      await navigator.share({ title: '나의 영어 성향 테스트', text: '나는 어떤 환경에서 영어를 가장 잘 배울까?', url });
+      try {
+        await navigator.share({ title: '나의 영어 성향 테스트', text: '나는 어떤 환경에서 영어를 가장 잘 배울까?', url });
+      } catch (error) {
+        if (!(error instanceof DOMException && error.name === 'AbortError')) throw error;
+      }
       return;
     }
     await navigator.clipboard.writeText(url);
