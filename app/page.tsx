@@ -55,7 +55,7 @@ export default function Home() {
           </div>
           <div className="intro-art" aria-hidden="true">
             <span className="art-sticker sticker-one">NO WRONG<br />ANSWERS!</span>
-            <CharacterSprite position={[3, 2]} label="" className="hero-sprite" />
+            <CharacterSprite position={[0, 1]} label="" className="hero-sprite" />
             <span className="art-sticker sticker-two">READY?</span>
           </div>
         </section>
