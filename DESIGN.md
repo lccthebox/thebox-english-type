@@ -28,7 +28,7 @@ Atmosphere: a confident digital personality magazine with the momentum of a game
 
 - Start: compact masthead, editorial headline, character sprite, direct CTA above the fold.
 - Quiz: progress rail, question count/weight, one prompt, five full-width answer cards.
-- Result: result badge and sprite, core diagnosis, three environment bullets, closing statement and restart.
+- Result: result badge and sprite, full-width diagnosis, balanced moment/environment cards, fit summary, friction note, closing statement and actions.
 - Mobile: single column, 16px gutters, tap targets at least 48px. Desktop: two-column stage for start/result; quiz stays narrow for focus.
 
 ## 5. Primitives and States
@@ -39,6 +39,8 @@ Atmosphere: a confident digital personality magazine with the momentum of a game
 - `ProgressRail`: ten semantic segments; complete coral, current lime, future translucent.
 - `CharacterSprite`: supplied transparent sprite sheet cropped through reusable row/column positioning.
 - `ResultTag`: compact uppercase/pill metadata treatment.
+- `ResultDetailPair`: equal-height moment and environment cards on desktop; a single readable stack on mobile.
+- `ResultActionGroup`: two equally weighted conversion/share actions followed by a centered tertiary restart action.
 
 ## 6. Motion
 

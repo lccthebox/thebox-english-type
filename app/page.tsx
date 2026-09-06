@@ -100,10 +100,22 @@ function ResultScreen({ type, restart }: { readonly type: TypeId; readonly resta
     setShareStatus('첫 페이지 링크를 복사했어요!');
   }
 
+  function restartFromTop(): void {
+    restart();
+    window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'auto' }));
+  }
+
   return (
     <section className="result-stage" data-type={type} aria-labelledby="result-title">
       <div className="result-hero"><div><span className="eyebrow">YOUR ENGLISH TYPE IS</span><h1 id="result-title">{result.name}</h1><p className="result-headline">{result.headline}</p><div className="tags">{result.tags.map((tag) => <span key={tag}>#{tag}</span>)}</div></div><CharacterSprite position={result.sprite} label={`${result.name} 더박스 캐릭터`} className="result-sprite" /></div>
-      <div className="result-grid"><article className="result-story"><p>{result.intro}</p><section className="moment-card"><span>이런 순간, 나 같지 않나요?</span><strong>{result.momentQuote}</strong><p>{result.moment}</p></section><p>{result.fit}</p></article><aside className="grow-card"><span className="grow-label">이런 환경에서 잘 자라요</span><ul>{result.grows.map((item) => <li key={item}><Check aria-hidden="true" />{item}</li>)}</ul></aside></div>
+      <article className="result-story">
+        <p className="result-intro">{result.intro}</p>
+        <div className="result-grid">
+          <section className="moment-card"><span>이런 순간, 나 같지 않나요?</span><strong>{result.momentQuote}</strong><p>{result.moment}</p></section>
+          <aside className="grow-card"><span className="grow-label">이런 환경에서 잘 자라요</span><ul>{result.grows.map((item) => <li key={item}><Check aria-hidden="true" /><span>{item.replace(/ (\S+)$/, '\u00a0$1')}</span></li>)}</ul></aside>
+        </div>
+        <p className="result-fit">{result.fit}</p>
+      </article>
       <section className="friction-card"><span>반대로, 이런 환경은 답답할 수 있어요</span><p>{result.friction}</p></section>
       <blockquote>{result.closing}</blockquote>
       <div className="result-actions">
@@ -111,7 +123,7 @@ function ResultScreen({ type, restart }: { readonly type: TypeId; readonly resta
         <button className="share-action" type="button" onClick={() => void shareTest()}><Share2 aria-hidden="true" /> 친구에게 공유하기</button>
       </div>
       <p className="share-status" aria-live="polite">{shareStatus}</p>
-      <Button className="restart-action" variant="outline" size="lg" onClick={restart}><RotateCcw aria-hidden="true" /> 다시 테스트하기</Button>
+      <Button className="restart-action" variant="outline" size="lg" onClick={restartFromTop}><RotateCcw aria-hidden="true" /> 다시 테스트하기</Button>
     </section>
   );
 }
