@@ -16,8 +16,8 @@ body { background: #fff8e8; color: #18181d; }
 .site-shell { background: radial-gradient(circle at 12% 8%, #ffd8cf 0, transparent 28rem), radial-gradient(circle at 88% 88%, #d8f5a2 0, transparent 32rem), #fff8e8; }
 .masthead { border-bottom-color: #18181d20; }
 .brand { color: #18181d; display: flex; align-items: center; gap: 10px; letter-spacing: -.035em; }
-.brand-hook { margin: 0; padding: 6px 10px 5px; border: 2px solid #18181d; border-radius: 999px 999px 999px 5px; background: #d9f56a; color: #18181d; font-size: .82rem; line-height: 1; transform: rotate(-1.5deg); box-shadow: 2px 2px 0 #18181d; }
-.brand-title { margin: 0; color: #ff5f45; font-size: 1.08rem; font-weight: 950; text-shadow: 1px 1px 0 #18181d; }
+.brand .brand-hook { margin: 0; padding: 6px 10px 5px; border: 2px solid #18181d; border-radius: 999px 999px 999px 5px; background: #d9f56a; color: #18181d; font-size: .82rem; line-height: 1; transform: rotate(-1.5deg); box-shadow: 2px 2px 0 #18181d; }
+.brand .brand-title { margin: 0; color: #972f20; font-size: 1.08rem; font-weight: 950; text-shadow: none; }
 .issue { color: #686871; }
 .intro .eyebrow { color: #b93a22; }
 .intro h1 { color: #18181d; }
