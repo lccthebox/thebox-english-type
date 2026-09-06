@@ -31,6 +31,14 @@ body { background: #fff8e8; color: #18181d; }
 .progress-copy { color: #55545c; }
 .quiz-progress > div { background: #18181d18; }
 .result-story { color: #3e3d45; }
+.moment-card { margin: 26px 0; padding: 22px; border: 2px solid #18181d; border-radius: 18px; background: #fff; box-shadow: 5px 5px 0 var(--result-color); }
+.moment-card > span,
+.friction-card > span { display: block; margin-bottom: 12px; color: #7e9500; font-weight: 900; }
+.moment-card strong { display: block; margin-bottom: 12px; color: #18181d; font-size: 1.1rem; line-height: 1.5; word-break: keep-all; }
+.moment-card p,
+.friction-card p { margin: 0; }
+.friction-card { margin-top: 26px; padding: 22px 24px; border: 1px solid #ff8d72; border-radius: 18px; background: #fff1ed; color: #3e3d45; line-height: 1.7; word-break: keep-all; }
+.friction-card > span { color: #972f20; }
 .grow-card { border-color: #18181d24; background: #ffffffb5; color: #18181d; }
 .grow-label { color: #7e9500; }
 .restart-action { color: #18181d; border-color: #18181d; background: #fffdf8; }
@@ -51,6 +59,8 @@ blockquote { box-shadow: 4px 4px 0 #18181d; }
 @media (max-width: 560px) {
   .result-actions { grid-template-columns: 1fr; }
   .result-hero h1 { font-size: clamp(3.15rem, 17vw, 3.7rem); white-space: nowrap; }
+  .moment-card,
+  .friction-card { padding: 18px; }
   .masthead { height: 76px; }
   .brand { align-items: flex-start; flex-direction: column; gap: 5px; }
   .brand-hook { padding: 4px 8px 3px; font-size: .68rem; }
