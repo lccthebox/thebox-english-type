@@ -40,7 +40,7 @@ export default function Home() {
   return (
     <main className="site-shell">
       <header className="masthead">
-        <button className="brand" type="button" onClick={() => setScreen('intro')} aria-label="처음 화면으로">THE BOX <span>ENGLISH LAB</span></button>
+        <button className="brand" type="button" onClick={() => setScreen('intro')} aria-label="처음 화면으로"><span className="brand-hook">내가 말을 못 하는 진짜 이유?</span><span className="brand-title">더박스 영어회화 유형 진단</span></button>
         <span className="issue">TYPE TEST · 10 QUESTIONS</span>
       </header>
       {screen === 'intro' && (
