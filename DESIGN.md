@@ -1,0 +1,58 @@
+# The Box English Type — Design Contract
+
+## 0. Research Log
+
+- Embedded references: shortlisted Spotify (high-energy editorial contrast), Duolingo (playful learning feedback), and Stripe (polished layered surfaces). Selected Spotify as the dominant layout grammar because the experience should feel entertainment-first; adapted without brand assets or copy.
+- Real-product screen lane: network-dependent screen research was unavailable within the local build path; the supplied character sheets provide stronger product-specific visual direction.
+- Imagen draft lane: omitted because the user supplied an extensive original character system; generating replacement concepts would dilute the established IP rather than improve the test.
+
+## 1. Direction
+
+Atmosphere: a confident digital personality magazine with the momentum of a game show. Signature material: crisp white quiz cards floating over a deep ink stage with electric coral and lime spotlights. Memorable moment: the chosen answer snaps forward and the character “hosts” the transition into the next question.
+
+## 2. Audience and Jobs
+
+- Primary: Korean adults curious about why English study has not stuck.
+- Job: complete ten low-friction choices and receive a specific, reassuring learning-environment diagnosis.
+- Cognitive constraint: one question and five short choices at a time; no English proficiency jargon.
+
+## 3. Tokens
+
+- Ink `#111116`; paper `#FFFDF8`; coral `#FF5B3D`; lime `#C9F24A`; lilac `#B8A7FF`; cyan `#74DDF2`.
+- Display: system sans, black weight, compressed letter spacing. Body: system sans, regular/semibold.
+- Spacing rhythm: 4, 8, 12, 16, 24, 32, 48, 64.
+- Radii: 14 controls, 24 cards, 999 pills.
+- Shadow: hard offset for playful depth; soft ambient only behind the main stage.
+
+## 4. Layout
+
+- Start: compact masthead, editorial headline, character sprite, direct CTA above the fold.
+- Quiz: progress rail, question count/weight, one prompt, five full-width answer cards.
+- Result: result badge and sprite, core diagnosis, three environment bullets, closing statement and restart.
+- Mobile: single column, 16px gutters, tap targets at least 48px. Desktop: two-column stage for start/result; quiz stays narrow for focus.
+
+## 5. Primitives and States
+
+- `StageCard`: paper surface, ink border, offset shadow; default only.
+- `PrimaryAction`: coral fill; hover lifts 2px, active returns to baseline, visible focus ring, disabled muted.
+- `ChoiceCard`: paper default; hover/keyboard focus highlights coral edge; selected fills lime and advances after brief confirmation.
+- `ProgressRail`: ten semantic segments; complete coral, current lime, future translucent.
+- `CharacterSprite`: supplied transparent sprite sheet cropped through reusable row/column positioning.
+- `ResultTag`: compact uppercase/pill metadata treatment.
+
+## 6. Motion
+
+- 180ms ease-out for hover/press feedback; 260ms ease-out for question entrance.
+- Only stateful elements move. No ambient looping animation.
+- `prefers-reduced-motion` removes transforms and transitions.
+
+## 7. Accessibility
+
+- Semantic buttons for every answer; visible `:focus-visible` ring.
+- Question changes announced in a polite live region.
+- Color never carries progress alone; numbers and text remain present.
+- Korean line breaking uses `word-break: keep-all` and generous line height.
+
+## 8. Accepted Debt
+
+- The supplied sprite sheet is cropped at runtime instead of shipping five separately exported image files. This preserves source fidelity and keeps the build reversible; screen-reader meaning is provided as text.
