@@ -43,7 +43,7 @@ Atmosphere: a confident digital personality magazine with the momentum of a game
 - `ResultTag`: compact uppercase/pill metadata treatment.
 - `SecondaryTypeNote`: when the runner-up is exactly one point behind, keeps the winner visually primary and explains the nearby preference without labeling the result composite.
 - `ResultDetailPair`: equal-height moment and environment cards on desktop; a single readable stack on mobile.
-- `ResultActionGroup`: two equally weighted conversion/share actions, separated from the closing statement by 24px (16px on mobile), followed by a centered tertiary restart action.
+- `ResultActionGroup`: study consultation, academy consultation, and sharing as three equally weighted actions; separated from the closing statement by 24px (16px on mobile), followed by a centered tertiary restart action.
 
 ## 6. Motion
 

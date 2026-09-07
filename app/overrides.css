@@ -87,10 +87,11 @@ body { background: #fff8e8; color: #18181d; }
 .result-hero { box-shadow: 10px 10px 0 #18181d; }
 blockquote { box-shadow: 4px 4px 0 #18181d; }
 
-.result-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+.result-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px; }
 .consult-action,
 .share-action { min-height: 58px; border: 2px solid #18181d; border-radius: 14px; display: flex; align-items: center; justify-content: center; gap: 9px; padding: 12px 18px; font-weight: 800; font-size: 1rem; cursor: pointer; transition: transform 160ms ease, box-shadow 160ms ease; }
 .consult-action { background: #ff6349; color: #18181d; box-shadow: 4px 4px 0 #18181d; }
+.academy-action { background: var(--lilac); }
 .share-action { background: #d9f56a; color: #18181d; box-shadow: 4px 4px 0 #ff8d72; }
 .consult-action:hover,
 .share-action:hover { transform: translateY(-2px); }

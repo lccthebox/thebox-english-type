@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowRight, Check, MessageCircle, RotateCcw, Share2, Sparkles } from 'lucide-react';
+import { ArrowRight, Check, GraduationCap, RotateCcw, Share2, Sparkles, Users } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -203,7 +203,8 @@ function ResultScreen({ types, secondaryTypes, tieBreakReason, answers, restart 
       <section className="friction-card"><span>반대로, 이런 환경은 답답할 수 있어요</span><p>{result.friction}</p></section>
       <blockquote>{result.closing}</blockquote>
       <div className="result-actions">
-        <a className="consult-action" href="https://naver.me/5BcFp4RM" target="_blank" rel="noreferrer"><MessageCircle aria-hidden="true" /> 영어회화 상담받아보기</a>
+        <a className="consult-action study-action" href="https://lccthebox.github.io/thebox/intro" target="_blank" rel="noreferrer"><Users aria-hidden="true" /> 스터디 상담하기</a>
+        <a className="consult-action academy-action" href="https://lccthebox.github.io/thebox/academy" target="_blank" rel="noreferrer"><GraduationCap aria-hidden="true" /> 아카데미 상담하기</a>
         <button className="share-action" type="button" onClick={() => void shareTest()}><Share2 aria-hidden="true" /> 친구에게 공유하기</button>
       </div>
       <p className="share-status" aria-live="polite">{shareStatus}</p>
