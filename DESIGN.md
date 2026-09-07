@@ -35,6 +35,7 @@ Atmosphere: a confident digital personality magazine with the momentum of a game
 
 - `StageCard`: paper surface, ink border, offset shadow; default only.
 - `PrimaryAction`: coral fill; hover lifts 2px, active returns to baseline, visible focus ring, disabled muted.
+- `IntroGuide`: question hook, short cause statement and two scannable honesty rules; bold emphasis carries the reading path on mobile.
 - `ChoiceCard`: paper default; hover/keyboard focus highlights coral edge; selected fills lime and advances after brief confirmation.
 - `ProgressRail`: ten semantic segments; complete coral, current lime, future translucent.
 - `CharacterSprite`: supplied transparent sprite sheet cropped through reusable row/column positioning.

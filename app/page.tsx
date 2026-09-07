@@ -66,8 +66,15 @@ export default function Home() {
           <div className="intro-copy">
             <span className="eyebrow"><Sparkles size={16} /> 3분이면 발견하는 나의 영어 환경</span>
             <h1 id="intro-title">나는 어떤 환경에서<br /><em>영어를 가장 잘 배울까?</em></h1>
-            <p>영어가 안 느는 이유는 의지가 부족해서가 아니라, 나에게 맞는 환경을 만나지 못했기 때문일 수도 있어요.</p>
-            <p className="intro-strong">잘하고 싶은 모습보다, 평소의 내 모습에 가까운 답을 골라주세요. 둘 다 맞는 것 같다면 조금 더 자주 느끼거나 행동하는 쪽을 선택해주세요.</p>
+            <div className="intro-guide">
+              <p className="intro-question">“왜 나는 영어 공부를 오래 해도 안 늘지?”</p>
+              <p className="intro-answer">원인은 의지가 아니라 <strong>나에게 안 맞는 공부 방식</strong> 때문일 수 있어요.</p>
+              <p className="intro-guide-label">이번 테스트는 ‘솔직함’이 생명!</p>
+              <ul>
+                <li>바람직해 보이는 답보다는 <strong>평소 진짜 내 모습</strong>대로!</li>
+                <li>고민된다면 <strong>조금 더 자주 행동하는 쪽</strong>을 빠르게 선택해 보세요.</li>
+              </ul>
+            </div>
             <Button className="primary-action" size="lg" onClick={start}>테스트 시작하기 <ArrowRight aria-hidden="true" /></Button>
           </div>
           <div className="intro-art" aria-hidden="true">
