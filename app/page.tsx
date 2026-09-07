@@ -4,6 +4,7 @@ import { ArrowRight, Check, GraduationCap, RotateCcw, Share2, Sparkles, Users } 
 import { useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
+import { trackEvent } from './analytics';
 import { CharacterSprite, preloadCharacter } from './character-sprite';
 import { QUESTIONS, RESULTS, TIE_BREAK_OPTIONS, type TypeId } from './quiz-data';
 import { addScore, determineOutcome, type Scores } from './scoring';
@@ -28,6 +29,7 @@ export default function Home() {
   const question = QUESTIONS[questionIndex];
 
   function start(): void {
+    trackEvent('quiz_start');
     tieResolutionLock.current = false; setIsResolvingTie(false); setScores(EMPTY_SCORES); setQuestionIndex(0); setSelected(null); setAnswers({}); setStudyMethods([]); setSecondaryTypes([]); setTieCandidates([]); setTieBreakReason(''); setScreen('quiz');
   }
 
@@ -59,6 +61,7 @@ export default function Home() {
     await preloadCharacter(RESULTS[primaryType].sprite);
     setWinners([primaryType]);
     setSecondaryTypes(outcome.secondary);
+    trackEvent('quiz_complete', { result_type: primaryType, is_tie: false });
     setScreen('result'); window.scrollTo({ top: 0, behavior: 'auto' });
   }
 
@@ -71,6 +74,7 @@ export default function Home() {
     setWinners(type ? [type] : tieCandidates);
     setSecondaryTypes(type ? tieCandidates.filter((candidate) => candidate !== type) : []);
     setTieBreakReason(type ? `${tieCandidates.map((candidate) => RESULTS[candidate].name).join('·')} 점수가 같았지만, 마지막 질문에서 ${RESULTS[type].name}의 조건을 우선 선택했어요.` : '공동 1위 성향의 우선순위를 정하지 않아 복합형 결과로 보여드려요.');
+    trackEvent('quiz_complete', { result_type: type ?? 'composite', is_tie: true });
     setScreen('result');
     window.scrollTo({ top: 0, behavior: 'auto' });
   }
@@ -168,6 +172,7 @@ function ResultScreen({ types, secondaryTypes, tieBreakReason, answers, restart 
       : null;
 
   async function shareTest(): Promise<void> {
+    trackEvent('share_click', { result_type: type });
     const url = new URL(window.location.pathname, window.location.origin).href;
     if (navigator.share) {
       try {
@@ -203,8 +208,8 @@ function ResultScreen({ types, secondaryTypes, tieBreakReason, answers, restart 
       <section className="friction-card"><span>반대로, 이런 환경은 답답할 수 있어요</span><p>{result.friction}</p></section>
       <blockquote>{result.closing}</blockquote>
       <div className="result-actions">
-        <a className="consult-action study-action" href="https://lccthebox.github.io/thebox/intro" target="_blank" rel="noreferrer"><Users aria-hidden="true" /> 스터디 상담하기</a>
-        <a className="consult-action academy-action" href="https://lccthebox.github.io/thebox/academy" target="_blank" rel="noreferrer"><GraduationCap aria-hidden="true" /> 아카데미 상담하기</a>
+        <a className="consult-action study-action" href="https://lccthebox.github.io/thebox/intro" target="_blank" rel="noreferrer" onClick={() => trackEvent('consultation_click', { consultation_type: 'study', result_type: type })}><Users aria-hidden="true" /> 스터디 상담하기</a>
+        <a className="consult-action academy-action" href="https://lccthebox.github.io/thebox/academy" target="_blank" rel="noreferrer" onClick={() => trackEvent('consultation_click', { consultation_type: 'academy', result_type: type })}><GraduationCap aria-hidden="true" /> 아카데미 상담하기</a>
         <button className="share-action" type="button" onClick={() => void shareTest()}><Share2 aria-hidden="true" /> 친구에게 공유하기</button>
       </div>
       <p className="share-status" aria-live="polite">{shareStatus}</p>
