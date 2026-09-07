@@ -26,8 +26,8 @@ Atmosphere: a confident digital personality magazine with the momentum of a game
 
 ## 4. Layout
 
-- Start: compact masthead, editorial headline, character sprite, direct CTA above the fold.
-- Quiz: two themed parts, progress rail, question count, one prompt, two response cards (plus an unscored no-experience option where relevant), followed by one unscored multi-select experience step.
+- Start: compact masthead, editorial headline, character sprite and direct CTA above the fold; no secondary statistics row beneath the CTA.
+- Quiz: two themed parts (`평소의 나는?`, `영어 앞에서는 어떤 내가 될까?`), progress rail, question count, one prompt, two response cards (plus an unscored no-experience option where relevant), followed by one unscored multi-select experience step.
 - Result: result badge and sprite, full-width diagnosis, balanced moment/environment cards, fit summary, friction note, closing statement and actions.
 - Mobile: single column, 16px gutters, tap targets at least 48px. Desktop: two-column stage for start/result; quiz stays narrow for focus.
 

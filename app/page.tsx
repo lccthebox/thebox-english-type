@@ -69,7 +69,6 @@ export default function Home() {
             <p>영어가 안 느는 이유는 의지가 부족해서가 아니라, 나에게 맞는 환경을 만나지 못했기 때문일 수도 있어요.</p>
             <p className="intro-strong">잘하고 싶은 모습보다, 평소의 내 모습에 가까운 답을 골라주세요. 둘 다 맞는 것 같다면 조금 더 자주 느끼거나 행동하는 쪽을 선택해주세요.</p>
             <Button className="primary-action" size="lg" onClick={start}>테스트 시작하기 <ArrowRight aria-hidden="true" /></Button>
-            <div className="intro-meta"><span>20개의 상황 질문</span><span>5가지 영어 성향</span><span>약 5분</span></div>
           </div>
           <div className="intro-art" aria-hidden="true">
             <span className="art-sticker sticker-one">NO WRONG<br />ANSWERS!</span>
@@ -80,7 +79,7 @@ export default function Home() {
       )}
       {screen === 'quiz' && question && (
         <section className="quiz-stage" aria-labelledby="question-title">
-          <div className="part-label">PART {question.part} · {question.part === 1 ? '평소의 내 속마음은?' : '영어 앞에서는 어떤 내가 될까?'}</div>
+          <div className="part-label">PART {question.part}. {question.part === 1 ? '평소의 나는?' : '영어 앞에서는 어떤 내가 될까?'}</div>
           <div className="progress-copy"><span>{String(questionIndex + 1).padStart(2, '0')} / 20</span><span>평소의 내 모습에 더 가까운 답을 골라주세요</span></div>
           <Progress value={(questionIndex + 1) * 5} aria-label={`20문항 중 ${questionIndex + 1}번째`} className="quiz-progress" />
           <article className="question-card" key={questionIndex} aria-live="polite">
