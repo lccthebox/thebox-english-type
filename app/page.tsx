@@ -1,10 +1,10 @@
 'use client';
 
 import { ArrowRight, Check, GraduationCap, RotateCcw, Share2, Sparkles, Users } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { trackEvent } from './analytics';
+import { initializeAnalytics, trackEvent } from './analytics';
 import { CharacterSprite, preloadCharacter } from './character-sprite';
 import { QUESTIONS, RESULTS, TIE_BREAK_OPTIONS, type TypeId } from './quiz-data';
 import { addScore, determineOutcome, type Scores } from './scoring';
@@ -27,6 +27,8 @@ export default function Home() {
   const [answers, setAnswers] = useState<Readonly<Record<number, number>>>({});
   const [studyMethods, setStudyMethods] = useState<readonly string[]>([]);
   const question = QUESTIONS[questionIndex];
+
+  useEffect(() => initializeAnalytics(), []);
 
   function start(): void {
     trackEvent('quiz_start');
