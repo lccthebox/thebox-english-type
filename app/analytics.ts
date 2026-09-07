@@ -1,4 +1,4 @@
-export const GA_MEASUREMENT_ID = 'G-54WWFECCE5';
+export const GA_MEASUREMENT_ID = 'G-CHZDT11MK6';
 
 type EventParameters = Readonly<Record<string, string | number | boolean>>;
 
