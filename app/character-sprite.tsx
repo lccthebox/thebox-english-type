@@ -1,3 +1,5 @@
+import type { SyntheticEvent } from 'react';
+
 type CharacterSpriteProps = { readonly position: readonly [number, number]; readonly label: string; readonly className?: string };
 
 function imageFor(position: readonly [number, number]): string {
@@ -13,11 +15,35 @@ function imageFor(position: readonly [number, number]): string {
   }
 }
 
+export function preloadCharacter(position: readonly [number, number]): Promise<void> {
+  const source = imageFor(position);
+  return new Promise((resolve) => {
+    const image = new Image();
+    let retried = false;
+    image.addEventListener('load', () => resolve(), { once: true });
+    image.addEventListener('error', () => {
+      if (retried) {
+        resolve();
+        return;
+      }
+      retried = true;
+      image.src = `${source}?retry=1`;
+    });
+    image.src = source;
+  });
+}
+
+function retryCharacter(event: SyntheticEvent<HTMLImageElement>): void {
+  if (event.currentTarget.dataset.retried === 'true') return;
+  event.currentTarget.dataset.retried = 'true';
+  event.currentTarget.src = `${event.currentTarget.src}?retry=1`;
+}
+
 export function CharacterSprite({ position, label, className = '' }: CharacterSpriteProps) {
   return (
     <figure className={`character-sprite ${className}`}>
       {/* oxlint-disable-next-line next/no-img-element -- generated local result art must retain its transparent canvas */}
-      <img src={imageFor(position)} alt={label} />
+      <img src={imageFor(position)} alt={label} onError={retryCharacter} />
     </figure>
   );
 }

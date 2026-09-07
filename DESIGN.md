@@ -40,7 +40,7 @@ Atmosphere: a confident digital personality magazine with the momentum of a game
 - `CharacterSprite`: supplied transparent sprite sheet cropped through reusable row/column positioning.
 - `ResultTag`: compact uppercase/pill metadata treatment.
 - `ResultDetailPair`: equal-height moment and environment cards on desktop; a single readable stack on mobile.
-- `ResultActionGroup`: two equally weighted conversion/share actions followed by a centered tertiary restart action.
+- `ResultActionGroup`: two equally weighted conversion/share actions, separated from the closing statement by 24px (16px on mobile), followed by a centered tertiary restart action.
 
 ## 6. Motion
 

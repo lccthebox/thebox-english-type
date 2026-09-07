@@ -4,7 +4,7 @@ import { ArrowRight, Check, MessageCircle, RotateCcw, Share2, Sparkles } from 'l
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { CharacterSprite } from './character-sprite';
+import { CharacterSprite, preloadCharacter } from './character-sprite';
 import { QUESTIONS, RESULTS, TYPE_IDS, type TypeId } from './quiz-data';
 
 type Screen = 'intro' | 'quiz' | 'experience' | 'result';
@@ -45,10 +45,13 @@ export default function Home() {
     }, 240);
   }
 
-  function showResult(): void {
+  async function showResult(): Promise<void> {
     const ratios = TYPE_IDS.map((type) => ({ type, ratio: opportunities[type] === 0 ? 0 : scores[type] / opportunities[type] }));
     const highest = Math.max(...ratios.map(({ ratio }) => ratio));
-    setWinners(ratios.filter(({ ratio }) => Math.abs(ratio - highest) < Number.EPSILON).map(({ type }) => type));
+    const nextWinners = ratios.filter(({ ratio }) => Math.abs(ratio - highest) < Number.EPSILON).map(({ type }) => type);
+    const primaryType = nextWinners[0] ?? 'guide';
+    await preloadCharacter(RESULTS[primaryType].sprite);
+    setWinners(nextWinners);
     setScreen('result'); window.scrollTo({ top: 0, behavior: 'auto' });
   }
 
@@ -98,7 +101,7 @@ export default function Home() {
             <span className="part-label">LAST STEP · 점수에는 반영되지 않아요</span>
             <h2 id="experience-title">지금까지 해본 영어공부 방법을 모두 골라주세요.</h2>
             <div className="method-grid">{STUDY_METHODS.map((method) => <button key={method} type="button" className="method-choice" data-selected={studyMethods.includes(method)} onClick={() => setStudyMethods((current) => current.includes(method) ? current.filter((item) => item !== method) : [...current, method])}><Check aria-hidden="true" />{method}</button>)}</div>
-            <Button className="primary-action" disabled={studyMethods.length === 0} onClick={showResult}>결과 확인하기 <ArrowRight aria-hidden="true" /></Button>
+            <Button className="primary-action" disabled={studyMethods.length === 0} onClick={() => void showResult()}>결과 확인하기 <ArrowRight aria-hidden="true" /></Button>
           </article>
         </section>
       )}
