@@ -209,6 +209,13 @@ function ResultScreen({ types, secondaryTypes, tieBreakReason, answers, restart 
       </article>
       <section className="friction-card"><span>반대로, 이런 환경은 답답할 수 있어요</span><p>{result.friction}</p></section>
       <blockquote>{result.closing}</blockquote>
+      <section className="result-guide" aria-labelledby="result-guide-title">
+        <span className="result-guide-kicker">이번 답변을 바탕으로 먼저 시도해볼 방법</span>
+        <h2 id="result-guide-title">{result.name} — {result.guideTitle}</h2>
+        <h3>{result.guideHeadline}</h3>
+        <div className="result-guide-body">{result.guideBody.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
+        <div className="result-mission"><span>오늘의 작은 미션</span><strong>{result.mission}</strong></div>
+      </section>
       <div className="result-actions">
         <a className="consult-action study-action" href="https://lccthebox.github.io/thebox/intro" target="_blank" rel="noreferrer" onClick={() => trackEvent('consultation_click', { consultation_type: 'study', result_type: type })}><Users aria-hidden="true" /> 스터디 상담하기</a>
         <a className="consult-action academy-action" href="https://lccthebox.github.io/thebox/academy" target="_blank" rel="noreferrer" onClick={() => trackEvent('consultation_click', { consultation_type: 'academy', result_type: type })}><GraduationCap aria-hidden="true" /> 아카데미 상담하기</a>

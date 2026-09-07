@@ -58,6 +58,7 @@ body { background: #fff8e8; color: #18181d; }
 .tie-choice > svg { width: 20px; }
 .skip-tiebreaker { display: block; margin: 24px auto 0; border: 0; border-bottom: 1px solid currentColor; background: transparent; color: var(--muted-foreground); font-size: .86rem; cursor: pointer; }
 .result-story { margin-top: 40px; color: #3e3d45; font-size: 1.02rem; line-height: 1.78; word-break: keep-all; }
+.result-stage { animation: enter 260ms ease-out both; }
 .result-intro,
 .result-fit { max-width: 54rem; margin: 0; }
 .result-intro { font-size: 1.06rem; }
@@ -86,6 +87,15 @@ body { background: #fff8e8; color: #18181d; }
 .restart-action:hover { background: #18181d; color: #fffdf8; }
 .result-hero { box-shadow: 10px 10px 0 #18181d; }
 blockquote { box-shadow: 4px 4px 0 #18181d; }
+.result-guide { margin-top: 36px; padding: 30px; border: 2px solid #18181d; border-radius: 22px; background: #fff; color: #3e3d45; box-shadow: 7px 7px 0 var(--result-color); word-break: keep-all; }
+.result-guide-kicker { display: inline-block; margin-bottom: 12px; color: #686871; font-size: .82rem; font-weight: 800; }
+.result-guide h2 { margin: 0; color: #18181d; font-size: 1.55rem; line-height: 1.35; letter-spacing: -.035em; }
+.result-guide h3 { margin: 14px 0 20px; color: #972f20; font-size: 1.15rem; line-height: 1.5; }
+.result-guide-body { display: grid; gap: 12px; }
+.result-guide-body p { margin: 0; line-height: 1.72; }
+.result-mission { display: grid; gap: 7px; margin-top: 22px; padding: 18px 20px; border-radius: 14px; background: color-mix(in srgb, var(--result-color) 34%, #fff); color: #18181d; }
+.result-mission span { font-size: .8rem; font-weight: 900; letter-spacing: .03em; }
+.result-mission strong { line-height: 1.55; }
 
 .result-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px; }
 .consult-action,
@@ -107,15 +117,28 @@ blockquote { box-shadow: 4px 4px 0 #18181d; }
   .intro-guide ul { font-size: .9rem; }
   .result-actions { grid-template-columns: 1fr; margin-top: 16px; }
   .method-grid { grid-template-columns: 1fr; }
-  .result-hero h1 { font-size: clamp(3.15rem, 17vw, 3.7rem); white-space: nowrap; }
+  .question-card h2 { margin-bottom: 18px; font-size: clamp(1.42rem, 7vw, 1.72rem); line-height: 1.3; letter-spacing: -.035em; }
+  .choice { font-size: .92rem; line-height: 1.5; }
+  .result-stage { padding-top: 20px; }
+  .result-hero { min-height: 0; padding: 24px 18px 10px; border-radius: 22px; }
+  .result-hero h1 { font-size: clamp(2.7rem, 14vw, 3.3rem); white-space: nowrap; }
+  .result-headline { font-size: 1.05rem; line-height: 1.45; }
+  .tags span { padding: 6px 9px; font-size: .75rem; }
+  .result-sprite { width: 205px; }
   .moment-card,
   .friction-card,
   .secondary-note { padding: 18px; }
   .tie-choice { grid-template-columns: 32px 1fr 20px; padding: 12px; }
-  .result-story { margin-top: 28px; }
+  .result-story { margin-top: 24px; font-size: .94rem; line-height: 1.72; }
   .result-grid { grid-template-columns: 1fr; margin-top: 22px; }
   .result-fit { margin-top: 24px; }
   .restart-action { width: 100%; }
+  .result-guide { margin-top: 28px; padding: 20px 17px; border-radius: 18px; box-shadow: 5px 5px 0 var(--result-color); }
+  .result-guide h2 { font-size: 1.28rem; line-height: 1.42; }
+  .result-guide h3 { margin: 12px 0 16px; font-size: 1rem; line-height: 1.55; }
+  .result-guide-body { gap: 10px; font-size: .92rem; }
+  .result-mission { margin-top: 18px; padding: 15px; }
+  .result-actions { gap: 10px; }
   .masthead { height: 76px; }
   .brand { align-items: flex-start; flex-direction: column; gap: 5px; }
   .brand-hook { padding: 4px 8px 3px; font-size: .68rem; }

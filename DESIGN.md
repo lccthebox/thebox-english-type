@@ -44,10 +44,12 @@ Atmosphere: a confident digital personality magazine with the momentum of a game
 - `SecondaryTypeNote`: when the runner-up is exactly one point behind, keeps the winner visually primary and explains the nearby preference without labeling the result composite.
 - `ResultDetailPair`: equal-height moment and environment cards on desktop; a single readable stack on mobile.
 - `ResultActionGroup`: study consultation, academy consultation, and sharing as three equally weighted actions; separated from the closing statement by 24px (16px on mobile), followed by a centered tertiary restart action.
+- `ResultGuide`: a clearly caveated next-step card that frames advice as an experiment based on the current answers, followed by one concrete same-day mission.
 
 ## 6. Motion
 
 - 180ms ease-out for hover/press feedback; 260ms ease-out for question entrance.
+- Quiz, tie-breaker, and result stages share the same 260ms entrance rhythm so screen changes feel continuous; mobile density is reduced without shrinking tap targets below 48px.
 - Only stateful elements move. No ambient looping animation.
 - `prefers-reduced-motion` removes transforms and transitions.
 
