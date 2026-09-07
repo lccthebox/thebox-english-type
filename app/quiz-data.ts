@@ -1,20 +1,31 @@
 export const TYPE_IDS = ['guide', 'hideout', 'field', 'rehearsal', 'quest'] as const;
 export type TypeId = (typeof TYPE_IDS)[number];
 
-export type Question = { readonly prompt: string; readonly weight: number; readonly options: Readonly<Record<TypeId, string>> };
+export type QuestionOption = { readonly label: string; readonly type: TypeId | null };
+export type Question = { readonly part: 1 | 2; readonly prompt: string; readonly options: readonly QuestionOption[] };
 export type Result = { readonly name: string; readonly headline: string; readonly tags: readonly string[]; readonly intro: string; readonly momentQuote: string; readonly moment: string; readonly fit: string; readonly grows: readonly string[]; readonly friction: string; readonly closing: string; readonly sprite: readonly [number, number]; readonly color: string };
 
 export const QUESTIONS: readonly Question[] = [
-  { prompt: '새로운 취미를 시작한다면 가장 필요한 것은?', weight: 1, options: { guide: '처음부터 차근차근 알려주는 가이드', hideout: '함께 꾸준히 할 수 있는 사람', field: '설명보다 바로 해볼 수 있는 체험', rehearsal: '시작하기 전에 미리 살펴볼 시간', quest: '한 달 안에 달성할 구체적인 목표' } },
-  { prompt: '처음 보는 사람들이 모인 자리에 도착했다. 나는?', weight: 1, options: { guide: '먼저 진행 방식과 규칙을 파악한다', hideout: '편해 보이는 한두 명과 천천히 친해진다', field: '먼저 말을 걸며 자연스럽게 섞인다', rehearsal: '잠시 분위기를 살핀 뒤 대화에 참여한다', quest: '내가 맡을 역할이나 할 일을 찾아본다' } },
-  { prompt: '새로운 영어 표현을 배웠다. 가장 먼저 하고 싶은 것은?', weight: 2, options: { guide: '언제, 왜 사용하는 표현인지 정확히 이해한다', hideout: '익숙한 사람과 여러 번 말해본다', field: '바로 실제 대화에서 사용해본다', rehearsal: '내 경험을 담은 문장을 미리 만들어본다', quest: '오늘 이 표현을 세 번 사용하겠다고 정한다' } },
-  { prompt: '누군가 예상하지 못한 질문을 영어로 했다. 나는?', weight: 2, options: { guide: '정확한 문장 구조를 생각하느라 잠시 멈춘다', hideout: '편한 사람이라면 천천히라도 대답한다', field: '아는 단어와 몸짓을 섞어 바로 반응한다', rehearsal: '생각을 정리할 시간을 가진 뒤 대답한다', quest: '오늘 익히기로 한 표현을 넣어 대답해본다' } },
-  { prompt: '처음 해보는 일을 맡았는데 방법을 잘 모르겠다. 나는?', weight: 1, options: { guide: '경험자에게 정확한 순서를 물어본다', hideout: '주변 사람과 함께 방법을 찾아본다', field: '우선 해보면서 필요한 것을 배운다', rehearsal: '충분히 검색하고 계획한 뒤 시작한다', quest: '일을 작은 단계와 체크리스트로 나눈다' } },
-  { prompt: '영어로 말한 뒤 가장 받고 싶은 반응은?', weight: 2, options: { guide: '어떤 표현이 틀렸고 왜 틀렸는지 알려주는 것', hideout: '실수해도 부담 없이 대화를 이어주는 것', field: '자연스럽게 추가 질문을 해주는 것', rehearsal: '생각을 정리해 다시 말할 기회를 주는 것', quest: '오늘의 목표를 달성했는지 확인해주는 것' } },
-  { prompt: '무언가를 오래 꾸준히 하게 만드는 힘은?', weight: 1, options: { guide: '정해진 일정과 믿을 만한 피드백', hideout: '함께 기다리고 응원해주는 사람', field: '매번 달라지는 재미와 생생한 경험', rehearsal: '내 속도로 준비하고 정리할 수 있는 시간', quest: '달성한 목표가 쌓이는 기록' } },
-  { prompt: '한 번의 영어 모임이 끝난 뒤 가장 뿌듯한 순간은?', weight: 2, options: { guide: '헷갈리던 문법이나 표현을 정확히 이해했을 때', hideout: '익숙한 사람과 이전보다 오래 대화했을 때', field: '예상하지 못한 질문에 자연스럽게 반응했을 때', rehearsal: '준비했던 생각을 영어로 충분히 전달했을 때', quest: '오늘 정한 말하기 목표를 완료했을 때' } },
-  { prompt: '가장 만족스러울 것 같은 60분 영어 시간은?', weight: 2, options: { guide: '설명을 듣고 연습한 뒤 피드백 받는 시간', hideout: '멤버들과 편안하게 대화하는 시간', field: '짧게 배우고 대부분 직접 이야기하는 시간', rehearsal: '주제를 준비하고 말한 뒤 다시 정리하는 시간', quest: '미션을 받고 실행한 뒤 결과를 확인하는 시간' } },
-  { prompt: '앞으로 3개월간 영어를 배운다면 가장 끌리는 환경은?', weight: 3, options: { guide: '단계적인 수업과 구체적인 피드백이 있는 환경', hideout: '같은 멤버들과 꾸준히 만나는 환경', field: '다양한 주제로 직접 대화하는 환경', rehearsal: '표현을 미리 준비할 수 있는 환경', quest: '매주 목표와 말하기 미션이 있는 환경' } },
+  { part: 1, prompt: '토요일 오후, 갑자기 일정이 비었다. 친구가 “우리 뭐 할까?”라고 묻는다면?', options: [{ label: '“일단 나가자. 돌아다니다 보면 하고 싶은 게 생기겠지.”', type: 'field' }, { label: '“잠깐만. 내가 하고 싶은 것부터 몇 개 생각해볼게.”', type: 'rehearsal' }] },
+  { part: 1, prompt: '처음 가는 모임. 둘 중 누가 옆에 있으면 더 마음이 놓일까?', options: [{ label: '내가 말을 많이 하지 않아도 편하게 대해주는 익숙한 사람.', type: 'hideout' }, { label: '“처음에는 이렇게 하면 돼” 하고 진행 방식을 알려주는 사람.', type: 'guide' }] },
+  { part: 1, prompt: '나름 열심히 하고 있는데, 잘하고 있는지는 모르겠다. 더 답답한 것은?', options: [{ label: '“뭘 어떻게 고쳐야 하는지 모르겠어.”', type: 'guide' }, { label: '“그래서 지금 어디까지 온 거고, 어디까지 하면 되는 거지?”', type: 'quest' }] },
+  { part: 1, prompt: '하루가 꼬여서 머릿속까지 복잡하다. 지금 나에게 필요한 것은?', options: [{ label: '“일단 내 얘기 좀 들어봐.” 편한 사람에게 털어놓는 시간.', type: 'hideout' }, { label: '“잠깐만 혼자 정리하고 올게.” 방해받지 않고 생각할 시간.', type: 'rehearsal' }] },
+  { part: 1, prompt: '새로운 취미에 푹 빠졌다. 나를 더 신나게 만드는 순간은?', options: [{ label: '“어? 이렇게도 되네?” 하다 보니 예상하지 못한 재미를 발견할 때.', type: 'field' }, { label: '“지난번에는 못 했는데!” 내가 정한 단계 하나를 해냈을 때.', type: 'quest' }] },
+  { part: 1, prompt: '처음 맡은 일 앞에서 “잠깐만요”라고 한다면, 내 속마음은?', options: [{ label: '“예시 하나만 보여주시면 감이 잡힐 것 같아요.”', type: 'guide' }, { label: '“제가 어떻게 할지 잠깐 정리해볼게요.”', type: 'rehearsal' }] },
+  { part: 1, prompt: '친구들과 한참 이야기하고 돌아왔다. 더 기분 좋게 남는 순간은?', options: [{ label: '“역시 내 얘기를 알아주는 사람들이야.” 편하게 속마음을 나눴던 순간.', type: 'hideout' }, { label: '“어쩌다 그 얘기까지 갔지?” 예상하지 못한 이야기로 대화가 흘러갔던 순간.', type: 'field' }] },
+  { part: 1, prompt: '해야 할 일은 있는데, 도무지 시작이 안 된다. 나에게 더 필요한 말은?', options: [{ label: '“머릿속에 있는 것부터 적어보자. 정리하면 어디서 시작할지 보일 거야.”', type: 'rehearsal' }, { label: '“딱 하나만 끝내보자. 작은 거라도 끝내면 그다음은 생각해보면 되지.”', type: 'quest' }] },
+  { part: 1, prompt: '친구가 처음 보는 보드게임을 꺼냈다. 게임을 시작하기 전 나는?', options: [{ label: '“규칙이랑 예시 한 번만 설명해줘. 알고 시작하고 싶어.”', type: 'guide' }, { label: '“연습판부터 해보자. 하다가 모르는 건 물어볼게.”', type: 'field' }] },
+  { part: 1, prompt: '잘 다니던 취미 모임에 요즘 발길이 뜸해졌다. 더 공감되는 이유는?', options: [{ label: '“편해진 사람들이 안 나오니까, 예전만큼 가고 싶지는 않네.”', type: 'hideout' }, { label: '“계속 나가기는 하는데, 요즘은 뭘 해냈다는 느낌이 없네.”', type: 'quest' }] },
+  { part: 1, prompt: '고생해서 무언가를 끝냈다. 더 와닿는 칭찬은?', options: [{ label: '“결국 네가 하겠다고 정한 것까지 해냈네.”', type: 'quest' }, { label: '“이 부분을 특히 잘했어. 이렇게 접근한 게 좋았던 거야.”', type: 'guide' }] },
+  { part: 1, prompt: '새로운 자리에서 내가 잠시 조용해졌다면, 내 속마음에 더 가까운 것은?', options: [{ label: '“할 말이 없는 건 아니야. 머릿속에서 정리하고 있어.”', type: 'rehearsal' }, { label: '“조금만 더 편해지면 나도 할 얘기가 많아.”', type: 'hideout' }] },
+  { part: 2, prompt: '영어 모임에서 예상하지 못한 주제가 나왔다. 어느 쪽이 더 편할까?', options: [{ label: '잠깐 생각할 시간을 받고, 말할 내용을 정리한 뒤 시작하는 것.', type: 'rehearsal' }, { label: '짧게 한마디씩 주고받으면서, 이야기할 내용을 찾아가는 것.', type: 'field' }] },
+  { part: 2, prompt: '새로운 영어 표현을 발견했다. 내가 더 자주 했던 행동은?', options: [{ label: '“일단 대화에서 써보자. 어색하거나 안 통하는 부분은 그때 바꿔보면 되지.”', type: 'field' }, { label: '“이 표현은 어떤 상황에서 쓰는 거지?” 설명과 예문부터 확인한다.', type: 'guide' }, { label: '아직 영어공부 경험이 없어요.', type: null }] },
+  { part: 2, prompt: '영어로 하고 싶은 말은 있는데, 막상 입이 떨어지지 않는다. 어떤 도움이 먼저 필요할까?', options: [{ label: '내가 하고 싶은 이야기를 짧게 메모하고 정리할 시간.', type: 'rehearsal' }, { label: '내 이야기를 담을 수 있는 문장 구조와 예시.', type: 'guide' }] },
+  { part: 2, prompt: '돌아보면 영어공부가 비교적 꾸준히 이어졌던 때가 있다. 더 가까운 이유는?', options: [{ label: '작게라도 해냈다는 기록이 쌓이고 있었기 때문.', type: 'quest' }, { label: '함께하는 사람들과 다음 만남이 약속돼 있었기 때문.', type: 'hideout' }, { label: '아직 그런 경험이 없어요.', type: null }] },
+  { part: 2, prompt: '영어로 말한 뒤, 어떤 반응을 받으면 “다음에도 말해봐야겠다”는 생각이 들까?', options: [{ label: '“이 부분은 자연스러웠고, 여기만 이렇게 바꾸면 돼요.” 구체적으로 짚어주는 반응.', type: 'guide' }, { label: '말이 조금 끊겨도 끝까지 기다려주고, 내가 전한 이야기에 관심을 보여주는 반응.', type: 'hideout' }] },
+  { part: 2, prompt: '영어 모임에서 말할 시간과 난이도는 같다면, 나에게 더 중요한 조건은?', options: [{ label: '정해진 질문 순서보다 상대의 답에 따라 자유롭게 이야기를 이어가는 것.', type: 'field' }, { label: '같은 멤버들과 꾸준히 만나며 편안한 관계를 이어가는 것.', type: 'hideout' }] },
+  { part: 2, prompt: '영어 모임을 마치고 돌아가는 길. 어떤 생각이 들면 다음 모임이 더 기대될까?', options: [{ label: '“오늘은 내가 먼저 질문 두 번 했다. 다음에는 세 번 해볼까?”', type: 'quest' }, { label: '“오늘 이런 이야기까지 할 줄은 몰랐네. 다음에는 무슨 얘기가 나올까?”', type: 'field' }] },
+  { part: 2, prompt: '영어 모임 시작까지 10분 남았다. 나를 조금 더 편하게 만드는 준비는?', options: [{ label: '“오늘은 내가 먼저 질문하기.” 이번에 해볼 행동 하나를 정한다.', type: 'quest' }, { label: '“이 이야기는 꼭 해보고 싶다.” 말하고 싶은 내용을 한두 개 메모한다.', type: 'rehearsal' }] },
 ] as const;
 
 export const RESULTS: Readonly<Record<TypeId, Result>> = {
