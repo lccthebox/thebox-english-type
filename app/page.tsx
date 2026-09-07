@@ -1,14 +1,14 @@
 'use client';
 
 import { ArrowRight, Check, MessageCircle, RotateCcw, Share2, Sparkles } from 'lucide-react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { CharacterSprite, preloadCharacter } from './character-sprite';
-import { QUESTIONS, RESULTS, TYPE_IDS, type TypeId } from './quiz-data';
+import { QUESTIONS, RESULTS, TIE_BREAK_OPTIONS, type TypeId } from './quiz-data';
+import { addScore, determineOutcome, type Scores } from './scoring';
 
-type Screen = 'intro' | 'quiz' | 'experience' | 'result';
-type Scores = Readonly<Record<TypeId, number>>;
+type Screen = 'intro' | 'quiz' | 'experience' | 'tiebreaker' | 'result';
 const EMPTY_SCORES: Scores = { guide: 0, hideout: 0, field: 0, rehearsal: 0, quest: 0 };
 const STUDY_METHODS = ['학교 수업·시험 준비', '책·앱·영상으로 독학', '학원·과외', '회화스터디·전화·화상영어', '여행·업무·일상에서 사용', '기타', '뚜렷한 경험 없음'] as const;
 
@@ -16,15 +16,19 @@ export default function Home() {
   const [screen, setScreen] = useState<Screen>('intro');
   const [questionIndex, setQuestionIndex] = useState(0);
   const [scores, setScores] = useState<Scores>(EMPTY_SCORES);
-  const [opportunities, setOpportunities] = useState<Scores>(EMPTY_SCORES);
   const [winners, setWinners] = useState<readonly TypeId[]>(['guide']);
+  const [secondaryTypes, setSecondaryTypes] = useState<readonly TypeId[]>([]);
+  const [tieCandidates, setTieCandidates] = useState<readonly TypeId[]>([]);
+  const [tieBreakReason, setTieBreakReason] = useState('');
+  const [isResolvingTie, setIsResolvingTie] = useState(false);
+  const tieResolutionLock = useRef(false);
   const [selected, setSelected] = useState<number | null>(null);
   const [answers, setAnswers] = useState<Readonly<Record<number, number>>>({});
   const [studyMethods, setStudyMethods] = useState<readonly string[]>([]);
   const question = QUESTIONS[questionIndex];
 
   function start(): void {
-    setScores(EMPTY_SCORES); setOpportunities(EMPTY_SCORES); setQuestionIndex(0); setSelected(null); setAnswers({}); setStudyMethods([]); setScreen('quiz');
+    tieResolutionLock.current = false; setIsResolvingTie(false); setScores(EMPTY_SCORES); setQuestionIndex(0); setSelected(null); setAnswers({}); setStudyMethods([]); setSecondaryTypes([]); setTieCandidates([]); setTieBreakReason(''); setScreen('quiz');
   }
 
   function answer(optionIndex: number): void {
@@ -32,27 +36,43 @@ export default function Home() {
     const option = question.options[optionIndex];
     if (!option) return;
     setSelected(optionIndex + 1);
-    const nextScores = option.type ? { ...scores, [option.type]: scores[option.type] + 1 } : scores;
-    const scoredTypes = question.options.flatMap((item) => item.type ? [item.type] : []);
-    const nextOpportunities = option.type ? scoredTypes.reduce<Scores>((current, type) => ({ ...current, [type]: current[type] + 1 }), opportunities) : opportunities;
+    const nextScores = addScore(scores, option.type);
     setAnswers((current) => ({ ...current, [questionIndex + 1]: optionIndex }));
     window.setTimeout(() => {
       if (questionIndex === QUESTIONS.length - 1) {
-        setScores(nextScores); setOpportunities(nextOpportunities); setScreen('experience');
+        setScores(nextScores); setScreen('experience');
       } else {
-        setScores(nextScores); setOpportunities(nextOpportunities); setQuestionIndex((current) => current + 1); setSelected(null); window.scrollTo({ top: 0, behavior: 'auto' });
+        setScores(nextScores); setQuestionIndex((current) => current + 1); setSelected(null); window.scrollTo({ top: 0, behavior: 'auto' });
       }
     }, 240);
   }
 
   async function showResult(): Promise<void> {
-    const ratios = TYPE_IDS.map((type) => ({ type, ratio: opportunities[type] === 0 ? 0 : scores[type] / opportunities[type] }));
-    const highest = Math.max(...ratios.map(({ ratio }) => ratio));
-    const nextWinners = ratios.filter(({ ratio }) => Math.abs(ratio - highest) < Number.EPSILON).map(({ type }) => type);
-    const primaryType = nextWinners[0] ?? 'guide';
+    const outcome = determineOutcome(scores);
+    if (outcome.kind === 'tie') {
+      setTieCandidates(outcome.candidates);
+      setScreen('tiebreaker');
+      window.scrollTo({ top: 0, behavior: 'auto' });
+      return;
+    }
+    const primaryType = outcome.primary;
     await preloadCharacter(RESULTS[primaryType].sprite);
-    setWinners(nextWinners);
+    setWinners([primaryType]);
+    setSecondaryTypes(outcome.secondary);
     setScreen('result'); window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+
+  async function resolveTie(type: TypeId | null): Promise<void> {
+    if (tieResolutionLock.current) return;
+    tieResolutionLock.current = true;
+    setIsResolvingTie(true);
+    const primaryType = type ?? tieCandidates[0] ?? 'guide';
+    await preloadCharacter(RESULTS[primaryType].sprite);
+    setWinners(type ? [type] : tieCandidates);
+    setSecondaryTypes(type ? tieCandidates.filter((candidate) => candidate !== type) : []);
+    setTieBreakReason(type ? `${tieCandidates.map((candidate) => RESULTS[candidate].name).join('·')} 점수가 같았지만, 마지막 질문에서 ${RESULTS[type].name}의 조건을 우선 선택했어요.` : '공동 1위 성향의 우선순위를 정하지 않아 복합형 결과로 보여드려요.');
+    setScreen('result');
+    window.scrollTo({ top: 0, behavior: 'auto' });
   }
 
   return (
@@ -111,12 +131,32 @@ export default function Home() {
           </article>
         </section>
       )}
-      {screen === 'result' && <ResultScreen types={winners} answers={answers} restart={start} />}
+      {screen === 'tiebreaker' && <TieBreakerScreen candidates={tieCandidates} isResolving={isResolvingTie} choose={(type) => void resolveTie(type)} />}
+      {screen === 'result' && <ResultScreen types={winners} secondaryTypes={secondaryTypes} tieBreakReason={tieBreakReason} answers={answers} restart={start} />}
     </main>
   );
 }
 
-function ResultScreen({ types, answers, restart }: { readonly types: readonly TypeId[]; readonly answers: Readonly<Record<number, number>>; readonly restart: () => void }) {
+function TieBreakerScreen({ candidates, isResolving, choose }: { readonly candidates: readonly TypeId[]; readonly isResolving: boolean; readonly choose: (type: TypeId | null) => void }) {
+  return (
+    <section className="quiz-stage tiebreaker-stage" aria-labelledby="tiebreaker-title">
+      <article className="question-card">
+        <span className="part-label">FINAL CHOICE · 점수에는 반영되지 않아요</span>
+        <h2 id="tiebreaker-title">마지막으로,{`\n`}지금 나에게 더{`\u00a0`}먼저 필요한 조건은?</h2>
+        <p className="tiebreaker-help">영어로 말하는 시간과 난이도는 같다고 생각해주세요.</p>
+        <div className="tie-choices">
+          {candidates.map((type, index) => {
+            const option = TIE_BREAK_OPTIONS[type];
+            return <button key={type} type="button" className="tie-choice" onClick={() => choose(type)} disabled={isResolving}><span className="choice-index">{String(index + 1).padStart(2, '0')}</span><span><strong>{option.title}</strong><small>{option.description}</small></span><ArrowRight aria-hidden="true" /></button>;
+          })}
+        </div>
+        <button className="skip-tiebreaker" type="button" onClick={() => choose(null)} disabled={isResolving}>우선순위를 정하지 않고 복합형 결과 보기</button>
+      </article>
+    </section>
+  );
+}
+
+function ResultScreen({ types, secondaryTypes, tieBreakReason, answers, restart }: { readonly types: readonly TypeId[]; readonly secondaryTypes: readonly TypeId[]; readonly tieBreakReason: string; readonly answers: Readonly<Record<number, number>>; readonly restart: () => void }) {
   const type = types[0] ?? 'guide';
   const result = RESULTS[type];
   const [shareStatus, setShareStatus] = useState('');
@@ -149,6 +189,8 @@ function ResultScreen({ types, answers, restart }: { readonly types: readonly Ty
   return (
     <section className="result-stage" data-type={type} aria-labelledby="result-title">
       <div className="result-hero"><div><span className="eyebrow">{types.length > 1 ? 'YOUR ENGLISH TYPES ARE' : 'YOUR ENGLISH TYPE IS'}</span><h1 id="result-title">{types.length > 1 ? '복합형' : result.name}</h1><p className="result-headline">{types.length > 1 ? `${typeNames.join(' × ')} 성향이 함께 나타났어요` : result.headline}</p><div className="tags">{result.tags.map((tag) => <span key={tag}>#{tag}</span>)}</div></div><CharacterSprite position={result.sprite} label={`${result.name} 더박스 캐릭터`} className="result-sprite" /></div>
+      {tieBreakReason && <p className="result-basis">{tieBreakReason}</p>}
+      {secondaryTypes.length > 0 && <section className="secondary-note"><span>가깝게 나타난 성향</span><strong>{secondaryTypes.map((item) => RESULTS[item].name).join(' · ')} 성향도 가까웠어요.</strong><p>{secondaryTypes.length === 1 ? TIE_BREAK_OPTIONS[secondaryTypes[0]].description : '대표 유형의 조건뿐 아니라, 위 성향에 맞는 환경도 비슷한 빈도로 선택했어요. 하나로 단정하기보다 함께 참고해보세요.'}</p></section>}
       {personalNote && <section className="personal-note"><span>평소의 나와 영어 앞의 나</span><strong>{personalNote.title}</strong><p>{personalNote.body}</p></section>}
       <article className="result-story">
         <p className="result-intro">{result.intro}</p>

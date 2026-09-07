@@ -37,9 +37,11 @@ Atmosphere: a confident digital personality magazine with the momentum of a game
 - `PrimaryAction`: coral fill; hover lifts 2px, active returns to baseline, visible focus ring, disabled muted.
 - `IntroGuide`: question hook, short cause statement and two scannable honesty rules; bold emphasis carries the reading path on mobile.
 - `ChoiceCard`: paper default; hover/keyboard focus highlights coral edge; selected fills lime and advances after brief confirmation.
+- `TieBreakerCard`: shown only for a shared top score; presents only the tied types as equal priority choices, does not change their scores, and allows an explicit composite-result skip.
 - `ProgressRail`: ten semantic segments; complete coral, current lime, future translucent.
 - `CharacterSprite`: supplied transparent sprite sheet cropped through reusable row/column positioning.
 - `ResultTag`: compact uppercase/pill metadata treatment.
+- `SecondaryTypeNote`: when the runner-up is exactly one point behind, keeps the winner visually primary and explains the nearby preference without labeling the result composite.
 - `ResultDetailPair`: equal-height moment and environment cards on desktop; a single readable stack on mobile.
 - `ResultActionGroup`: two equally weighted conversion/share actions, separated from the closing statement by 24px (16px on mobile), followed by a centered tertiary restart action.
 

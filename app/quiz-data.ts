@@ -4,12 +4,21 @@ export type TypeId = (typeof TYPE_IDS)[number];
 export type QuestionOption = { readonly label: string; readonly type: TypeId | null };
 export type Question = { readonly part: 1 | 2; readonly prompt: string; readonly options: readonly QuestionOption[] };
 export type Result = { readonly name: string; readonly headline: string; readonly tags: readonly string[]; readonly intro: string; readonly momentQuote: string; readonly moment: string; readonly fit: string; readonly grows: readonly string[]; readonly friction: string; readonly closing: string; readonly sprite: readonly [number, number]; readonly color: string };
+export type TieBreakOption = { readonly title: string; readonly description: string };
+
+export const TIE_BREAK_OPTIONS: Readonly<Record<TypeId, TieBreakOption>> = {
+  guide: { title: '“어떻게 말하면 되는지 이해하고 싶어요.”', description: '문장 구조와 예시를 설명받고, 내가\u00a0쓴 표현을 구체적으로 점검받는 것.' },
+  hideout: { title: '“편한 사람과 꾸준히 말하고 싶어요.”', description: '익숙한 사람들과 부담 없이 만나며, 틀려도 대화를 계속 이어가는 것.' },
+  field: { title: '“실제 대화 속에서 바로 부딪혀보고 싶어요.”', description: '완벽하게 준비하기보다 사람들과 먼저 말해보며 필요한 표현을 발견하는 것.' },
+  rehearsal: { title: '“내가 할 이야기를 먼저 정리하고 싶어요.”', description: '대화 주제를 미리 알고, 말하고 싶은 내용과 표현을 준비할 시간을 갖는 것.' },
+  quest: { title: '“작은 목표를 하나씩 달성하고 싶어요.”', description: '이번 주에 해낼 말하기 미션을 정하고, 완료한 결과를 눈으로 확인하는 것.' },
+} as const;
 
 export const QUESTIONS: readonly Question[] = [
   { part: 1, prompt: '여행 브이로그 중 갑작스러운 내 분량 타임! 카메라가 켜지면 나는?', options: [{ label: '일단 냅다 켜봐! 말하다 보면 썰 풀리겠지.', type: 'field' }, { label: '잠깐만! 무슨 얘기 할지 순서만 잡고 찍자.', type: 'rehearsal' }] },
   { part: 1, prompt: '아는 사람 하나 없는 첫 모임, 옆에 누구 한 명 붙여준다면?', options: [{ label: '말 안 붙여도 안 어색한 ‘어색함 제로’ 내 편.', type: 'hideout' }, { label: '뭐부터 해야 할지 싹 알려주는 ‘친절한 가이드’.', type: 'guide' }] },
   { part: 1, prompt: '나름 최선을 다하는 중인데… 마음이 답답할 때, 더 미칠 것 같은 순간은?', options: [{ label: '어디가 잘못된 건지 문제점을 못 찾겠을 때.', type: 'guide' }, { label: '내가 지금 전체 중 어디쯤 와 있는지 감도 안 올 때.', type: 'quest' }] },
-  { part: 1, prompt: '처음 간 취미 클래스, 배운 것을 직접 해볼 차례가 오자 조금 긴장된다. 더 마음이 놓이는 쪽은?', options: [{ label: '“같이 온 친구랑 먼저 해볼래.” 익숙한 사람이 곁에서 함께해주는 것.', type: 'hideout' }, { label: '“버벅거리기 싫어!” 내가 해야 할 동작이나 순서를 머릿속으로 정리할 시간을 갖는 것.', type: 'rehearsal' }] },
+  { part: 1, prompt: '처음 간 취미 클래스,\n배운 것을 직접 해볼 차례가\u00a0오자 조금 긴장된다.\n더 마음이 놓이는 쪽은?', options: [{ label: '“같이 온 친구랑 먼저 해볼래.” 익숙한 사람이 곁에서 함께해주는 것.', type: 'hideout' }, { label: '“버벅거리기 싫어!” 내가 해야 할 동작이나 순서를 머릿속으로 정리할 시간을 갖는 것.', type: 'rehearsal' }] },
   { part: 1, prompt: '새로 다운받은 사진 편집 앱! 제대로 써보기 전, 나만의 첫 시도 방식은?', options: [{ label: '“직접 눌러봐야 뭔 기능인지 알지!” 결과물이 바뀌는 걸 보면서 감부터 익힌다.', type: 'field' }, { label: '“우왕좌왕 다 건드리면 정신없어!” 딱 하나를 끝내보고 다음 기능으로 넘어간다.', type: 'quest' }] },
   { part: 1, prompt: '처음 해보는 업무에 투입됐다. “잠시만요” 하고 외친 내 진짜 속마음은?', options: [{ label: '“잘 된 예시 하나만 보여주세요!”', type: 'guide' }, { label: '“제가 어떻게 할지 잠깐 정리해볼게요.”', type: 'rehearsal' }] },
   { part: 1, prompt: '친구들과 밤새 수다 떨고 집으로 돌아오는 길, 더 기분 좋게 남는 순간은?', options: [{ label: '“역시 내 얘기를 알아주는 사람들이야.” 편하게 속마음을 나눴던 순간.', type: 'hideout' }, { label: '“어쩌다 그 얘기까지 갔지?” 예상하지 못한 이야기로 대화가 흘러갔던 순간.', type: 'field' }] },
